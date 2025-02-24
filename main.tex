@@ -1,0 +1,122 @@
+\documentclass[12pt]{article}
+%\usepackage{report}
+
+\usepackage[utf8]{inputenc} % allow utf-8 input
+%\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage[colorlinks=true, linkcolor=blue, citecolor=blue, urlcolor=blue]{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+%\usepackage{microtype}      % microtypography
+\usepackage{lipsum}		% Can be removed after putting your text content
+\usepackage{graphicx}
+\usepackage{footnote}
+\usepackage{doi}
+\usepackage{comment}
+\usepackage{multirow}
+\usepackage{textcomp}
+\usepackage{gensymb}
+\usepackage{float}
+\usepackage{amsmath}
+%\usepackage{subfigure}
+\usepackage{subcaption}
+\usepackage{setspace}
+\usepackage[skip=10pt plus1pt]{parskip} %I got rid of indent=30pt to make the paragraphs line up nicer - GI
+\usepackage[top=3cm, bottom=5cm, left=2.5cm, right=2.5cm]{geometry}
+\usepackage{titlesec}
+\begin{document}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%                                                                      %%%
+%%%                  ������  !!!  READ ME  !!!  ������                   %%%
+%%%                                                                      %%%
+%%%    note with your intials if any changes/comments are added! thx     %%%
+%%%                                                                      %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{titlepage}
+    \centering
+    \includegraphics[width=3cm]{crest.jpg}\par
+    \vspace{0.3cm}
+    {\scshape\Large School of Mathematical Sciences \par}
+    \vspace{0.25cm}
+    {\scshape\Large The University of Southampton \par}
+    \vspace{0.25cm}
+    {\Large MATH 6149 - Modelling with Differential Equations \par}
+    \vspace{0.5cm}
+    {\huge\bfseries Flash Floods!\par}
+    \vspace{0.5cm}
+
+    {\Large Chin Phin Ong (Linus) \par}
+
+    %\vspace{0.25cm}
+    {\large  \par}
+    \vfill
+    {\large Febuary 2025 \par}
+\end{titlepage}
+
+\begin{abstract}
+    
+\end{abstract}
+
+\section{Introduction}
+Flash floods are dangerous phenomena where rapid flooding (by definition, within 6 hours, often 3 after rainfall \cite{national-oceanic-and-atmospheric-administration-no-date}). In this short study, the mathematics behind flash flooding will be investigated. We will attempt to model the behaviour of flash floods using differential equations.
+
+\section{Modelling}
+To start, we will take a section of a river bed of length $s$, where the cross section of the river that is filled with water is $A(s, t)$, the cross section's perimeter of the riverbed that comes into contact with water is $l(s, t)$, and the angle of slope of the riverbed, $\alpha$. In addition to those, we can 
+
+
+We start with a first non-linear ODE:
+\begin{equation}
+\label{PDE_of_A}
+    \frac{\partial A}{\partial t} + \sqrt{\frac{g}{f}} \frac{\partial}{\partial s}\left(A^{\frac{3}{2}}\sqrt{\frac{\sin \alpha}{l (A)}}\right) = 0
+\end{equation}
+
+Where $\alpha$ is the angle of inclination of the river bed, where the values will be obtained from \cite{ROSGEN1994169}. We will explore different cross sections and the dependance of the perimeter, $l(A)$ on the cross sectional area $A$ will also be stated, and Eqn. \ref{PDE_of_A} will be solved.
+
+\subsection{Rectangular}
+For the case of a rectangular riverbed, for a width of $w$ and height of water $h$, $A = wh$, giving a perimeter of $l = w + \frac{2A}{w}$.
+
+\subsection{Triangular}
+The area of a triangular cross-section is 
+
+
+\subsection{Semi-circular}
+For a semi circular cross section that has a radius $R$ and $\theta$ is the central angle subtended by the water surface. We need to consider an expression for cases where the water is not completely full as well. As the water falls below the top of the river surface, a triangle is formed, which the area can be obtained by:
+\begin{equation}
+    A = \frac{R^2}{2} \sin\theta
+\end{equation}
+
+Therefore, the area of the cross section of water is:
+\begin{align}
+    A &=\frac{R^2 \theta}{2} - \frac{R^2}{2}\sin\theta \\
+      &= \frac{R^2}{2}\left(\theta - \sin\theta\right) \notag
+\end{align}
+And the perimeter can be easily obtained:
+\begin{align}
+    l =& R\theta \\
+        =& \sqrt{\frac{2A}{\left(\theta - \sin\theta\right)}}\theta \notag
+\end{align}
+
+\section{Characteristic Diagrams}
+A characteristic diagram is used as a graphical representation to solutions of a hyperbolic PDE (i.e. Eqn. \ref{PDE_of_A}). It is used to understand how solutions propagate through time and space, usually in the $(s, t)$ plane, where $s$ and $t$ is the spatial coordinate and time respectively. There are multiple characteristic curves, each representing the trajectory of a point in the solution. The slope of a curve is the wave speed at the point.
+
+We can rewrite Eqn. \ref{PDE_of_A} as the form below:
+\begin{equation}
+    \frac{\partial A}{\partial t} + v(A) \frac{\partial A}{\partial s} = 0\qquad 
+    \text{where} 
+    \qquad v(A) = \frac{3A^{1/2}}{2}\sqrt{\frac{\sin \alpha}{l (A)}}
+\end{equation}
+
+Where $v(A)$ is now known as the wave speed which is the slope, that depends on A. The solution propagates along characteristic curves in the $(s, t)$ plane.
+
+
+\section{Conclusion}
+
+
+\bibliographystyle{plain}
+\bibliography{references}
+\end{document}

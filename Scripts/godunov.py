@@ -14,6 +14,16 @@ def l(A):
         theta = np.pi / 3
         return np.sqrt((2 * A) / (theta - np.sin(theta))) * theta
 
+    if shape == 'Parabola':
+        a = 5
+        w = 10
+        
+        var_0 = np.sqrt(1 + (3 * A * a * w))
+        var_1 = (3 * A)/ (w **2)
+        var_2 = (3 * A * (w **2))/2
+        
+        return var_2 * (var_1 * var_0 + np.ln(1 + var_0 + var_1)) 
+            
 def u_bar(A):
     if shape == 'Rectangle':
         alpha = np.arctan(0.02)  # Correctly left in radians
@@ -24,6 +34,7 @@ def u_bar(A):
     if shape == 'Semi':
         alpha = np.arctan()
     return np.sqrt((g * np.sin(alpha) * A) / (f * l(A)))
+
 
 def int_cond(s):
     norm = np.sqrt(2 * np.pi * (sigma ** 2))
@@ -79,29 +90,29 @@ def godunov(t, t_end, x, N, L):
     plt.legend()
     plt.tick_params(axis='both', which='major', labelsize=20)
     plt.title('Evolution of cross sectional area, $A$ across length for different $t$', fontsize=20)
-    plt.savefig(f'Flash Floods/Figures/{shape}_godunov.pdf')
-    #plt.show()
+    #plt.savefig(f'/Users/linusong/Repositories/Modeling-with-Differential-Equations---Individual-Project/Figures/{shape}_godunov.pdf')
+    plt.show()
 
 ##############################################################################################################
+if __name__ == "__main__":
+    # Constants
+    g = 9.81
+    f = 0.1
 
-# Constants
-g = 9.81
-f = 0.1
+    A_L = 10
+    V = 5000
 
-A_L = 10
-V = 100
+    b = 0
+    sigma = 100
 
-b = 1
-sigma = 2
+    shape = 'Rectangle'
 
-shape = 'Rectangle'
+    # Discretization
+    N = 1000
+    L = 1
+    t = 0
+    t_end = 100
+    x = np.linspace(0, 1000, N)
 
-# Discretization
-N = 100
-L = 10
-t = 0
-t_end = 2.5
-x = np.linspace(-sigma - b, 5 * sigma + b, N)
-
-plt.close('all')
-godunov(t, t_end, x, N, L)
+    #plt.close('all')
+    godunov(t, t_end, x, N, L)

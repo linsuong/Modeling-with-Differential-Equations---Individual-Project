@@ -86,12 +86,12 @@ def godunov(t, t_end, x, N, L):
             #print(A)
             
     #plt.vlines(b + sigma, A_L, 40)
-    plt.xlabel('Distance along river, $s$', fontsize=20)
-    plt.ylabel('Cross sectional area, $A$', fontsize=20)
+    plt.xlabel('Distance along river, $s$', fontsize=40)
+    plt.ylabel('Cross sectional area, $A$', fontsize=40)
     plt.xlim(0, 5 * sigma + mean)
     plt.legend()
-    plt.tick_params(axis='both', which='major', labelsize=20)
-    plt.title(f'Evolution of cross sectional area, $A$ across length for different $t$, {shape} channel', fontsize=20)
+    plt.tick_params(axis='both', which='major', labelsize=40)
+    plt.title(f'Evolution of cross sectional area, $A$ across length for different $t$, {shape} channel', fontsize=40)
     plt.savefig(f'Figures/{shape}_godunov.pdf')
     plt.show()
 

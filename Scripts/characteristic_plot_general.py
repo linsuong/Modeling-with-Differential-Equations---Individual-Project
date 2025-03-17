@@ -89,13 +89,13 @@ def plot_characteristics(t, s, intersections = 'False'):
         for i in range(len(intersections)):
             plt.plot(intersections[i], t, label = f'Intersection {i + 1}')
 
-    plt.xlabel('Distance along river, $s$ (m)', fontsize=20)
-    plt.ylabel('Time, $t$ (Seconds)', fontsize=20)
-    plt.title(f'Characteristic Diagram for {shape} Channel', fontsize=20)
+    plt.xlabel('Distance along river, $s$ (m)', fontsize=40)
+    plt.ylabel('Time, $t$ (Seconds)', fontsize=40)
+    plt.title(f'Characteristic Diagram for {shape} Channel', fontsize=40)
     plt.xlim(0, 5 * sigma + mean)
     plt.legend()
     plt.grid(alpha=0.3)
-    plt.tick_params(axis='both', which='major', labelsize=20)
+    plt.tick_params(axis='both', which='major', labelsize=40)
     plt.savefig(f'Figures/{shape}_characteristic.pdf')
     plt.show()
 

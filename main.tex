@@ -152,7 +152,7 @@ Where:
     \item $\sigma$ is the standard distribution of the rain
 \end{itemize}
 
-We should define the constants that are shared between the different cross sections. We require that: $g = 9.81 \text{ ms}^{-2}$), $f = 0.1$, $A_{initial} = $, $\sigma = $, $\mu  = 0$. The non-constant variables will be the angle of the riverbed, $\alpha$ and the various variables that are unique to the different cross sections which will be discussed in Section \ref{sec:results}.
+We should define the constants that are shared between the different cross sections. We require that: $g = 9.81 \text{ ms}^{-2}$, $f = 0.05$, $V = 5000\text{ m}^2$, $A_{initial} = 3 \text{ m}^2$, $\sigma = 100\text{ m}$, $\mu = 0\text{ m}$. The non-constant variables will be the angle of the riverbed, $\alpha$ and the various variables that are unique to the different cross sections which will be discussed in Section \ref{sec:results}.
 
 \section{Godunov's Method}
 Godunov's method is a numerical method to obtain an accurate solution to a hyperbolic PDE with shocks. In this scheme, we use the Finite Volume Method, where one divides up space into discrete time. Godunov's method is unique such that at the $i$-th finite volume, the conservation law has to be satisfied.
@@ -211,13 +211,13 @@ It is important to understand how the shock evolves with time. It is obtained us
 
 \section{Simulations}
 \label{sec:results}
-The values of $\alpha$ will be obtained from \cite{ROSGEN1994169}. The values of $\alpha$s are in gradient percentage from \cite{ROSGEN1994169}, where the formulae to convert to radians is: $\phi = \arctan{\theta}$, where $\theta$ and $\phi$ are the angles in gradient percentage and radians respectively. We will have a rainfall volume $V = 5,000\text{ m}^3$ with a standard deviation $\sigma = 100\text{ m}$. The code that plots the characteristic equations is the function \verb|plot_characteristics| in \verb|characteristic_plot.py| (done by me) . For the Gudonov method, the file \verb|gudonov.py| is used (done by Ben). The code can be found on GitHub\cite{linsuong_2023}. The objective of this is to observe the evolution of the water in the river, and to test the two methods and see if they line up with each other. Calculation of wave speed is also be done via code.
+The values of $\alpha$ will be obtained from \cite{ROSGEN1994169}. The values of $\alpha$s are in gradient percentage from \cite{ROSGEN1994169}, where the formulae to convert to radians is: $\phi = \arctan{\theta}$, where $\theta$ and $\phi$ are the angles in gradient percentage and radians respectively. The constants are defined before in section \ref{sec:characteristic}. The code that plots the characteristic equations is the function \verb|plot_characteristics| in \verb|characteristic_plot.py| (done by me). For the Godunov method, the file \verb|Godunov.py| is used (done by Ben, made pretty by me). The code can be found on GitHub\cite{linsuong_2023}. The objective of this is to observe the evolution of the water in the river, and to test the two methods and see if they line up with each other. Calculation of wave speed is also be done via code.
 
 The \textbf{calculated shock speed} is the shock speed calculated using equations in section \ref{sec:shock_velocity}, and we will compare with the shock velocity that the Godunov's method gives.
 
 \subsection{Rectangular Channel}
 For the rectangular channel of width $w$ and height of water $h$ (Fig. \ref{fig:cross-sections}), the area and perimeter respectively are: $A = wh$ and $l(A) = w + \frac{2A}{w}$, giving a first order derivative of :$l'(A) = \frac{2}{w}$ (See Appendix \ref{appendix:rectangle} for detailed derivation). Meanwhile, $\alpha = 2\%$ and $w = 10\text{ m}$. Plotting the characteristic diagram gives the plot shown in Fig. \ref{fig:rect_char}.
-\begin{figure}[H]
+\begin{figure}[h]
     \centering
     \begin{subfigure}[b]{0.49\textwidth}
         \centering
@@ -240,7 +240,7 @@ In Fig. \ref{fig:wedge_char}, we notice that shock formation occurs at $s\approx
 \subsection{Wedge Channel}
 For the wedge channel, the gradient percentage is at a higher value at $4-10\%$ (value taken is the median at $6.5\%$). To make the wedge comparable to the rectangular channel, we can set the variables to be $\theta = \pi$, have a comparable shape to the rectangle. We obtain $l =\sqrt{\frac{2A}{\left(\theta - \sin\theta\right)}}\theta$ and $l'(A) =\frac{2}{\sqrt{2A\sin(\theta)}}$.(See Appendix \ref{appendix:wedge} for detailed derivation.)
 
-\begin{figure}[H]
+\begin{figure}[h]
     \centering
     \begin{subfigure}[b]{0.49\textwidth}
         \centering
@@ -263,7 +263,7 @@ In Figure \ref{fig:wedge_char}, we notice that shock formation occurs at $s\appr
 \subsection{Semi-Circular}
 Semi-circular - For a semi circular cross section that has a radius $R$ and $\theta$ is the central angle subtended by the water surface (Fig. \ref{fig:cross-sections}), $A = \frac{R^2}{2}\left(\theta - \sin\theta\right)$, $l = \sqrt{\frac{2A}{\left(\theta - \sin\theta\right)}}\theta$. $\alpha = 3\%$ and $\theta = \pi/3$. See Appendix \ref{appendix:semi-circular} for detailed derivation.
 
-\begin{figure}[H]
+\begin{figure}[h]
     \centering
     \begin{subfigure}[b]{0.49\textwidth}
         \centering
@@ -284,8 +284,8 @@ Semi-circular - For a semi circular cross section that has a radius $R$ and $\th
 In Figure \ref{fig:wedge_char}, we notice that shock formation occurs at $s \approx 400\text{ m}$ and $t\approx 80\text{ s}$, with a calculated shock speed of $ 9.29\text{ ms}^{-1}$. In Fig. \ref{fig:semi_godunov} the shock moves $\approx200\text{ m}$ in $\approx 20 \text{ s}$, giving an approximate shock velocity of $ 10\text{ ms}^{-1}$. This is the fastest out of the 3 cross sections in terms of the shock velocity. This means that water is easily expelled via a semi-circular cross section.
 
 \subsection{Parabola}
-In the case of the parabola, the characteristic diagram obtained could not be interpreted. 
-\begin{figure}[H]
+In the case of the parabola, the characteristic diagram obtained could not be interpreted (Fig. \ref{fig:parab_char}).
+\begin{figure}[h]
     \centering
     \begin{subfigure}[b]{0.49\textwidth}
         \centering
@@ -302,33 +302,38 @@ In the case of the parabola, the characteristic diagram obtained could not be in
     \end{subfigure}
     \caption{Plots regarding the parabolic channel.}
 \end{figure}
-
-However, the shock velocity can be estimated. According to Fig. \ref{fig:parab_char}, the shock moves $\approx400\text{ m}$ in $\approx 60 \text{ s}$, giving an approximate shock velocity of $ 6.7\text{ ms}^{-1}$. This is the 2nd fastest cross section behind the semi-circle.
+However, the shock velocity can be estimated. According to Fig. \ref{fig:parab_godunov}, the shock moves $\approx400\text{ m}$ in $\approx 60 \text{ s}$, giving an approximate shock velocity of $ 6.7\text{ ms}^{-1}$. This is the 2nd fastest cross section behind the semi-circle.
 
 \subsection{Tabulation of Data}
-\begin{tabular}{|c|c|c|c|}
+Below are values collected for the various cross sections:
+\\
+\\
+\begin{tabular}{|c|c|c|c|c|}
     \hline
-    Parameter/Shape & Rectangle & Wedge & Semi \\
+    \textbf{Parameter/Shape} & Rectangle & Wedge & Semi & Parabola\\
     \hline
-     $s$ (m) & 259.09 & 381.95 & 381.95 \\
+     shock location $s$ (m) & 259.09 & 381.95 & 381.95 & -\\
      \hline
-     $t$ (s) & 77.40 & 61.48 & 82.11 \\
+     shock time $t$ (s) & 77.40 & 61.48 & 82.11 & -\\
      \hline
-     $v_1$ (ms$^{-1}$) & 2.70 & 5.34 & 4.01 \\
+     inverse gradient of first line $v_1$ (ms$^{-1}$) & 2.70 & 5.34 & 4.01 & -\\
      \hline
-     $v_2$ (ms$^{-1}$)& 1.42 & 3.90 & 2.92 \\
+     inverse gradient of second line $v_2$ (ms$^{-1}$)& 1.42 & 3.90 & 2.92 & -\\
      \hline
-     $A_0$ (m$^{2}$)& 19.22 & 19.26 & 19.22 \\
+     area corresponding to first gradient $A_0$ (m$^{2}$)& 19.22 & 19.26 & 19.22 & -\\
      \hline
-     $A_1$ (m$^{2}$)& 4.75 & 5.39 & 5.04 \\
+     area corresponding to second gradient $A_1$ (m$^{2}$)& 4.75 & 5.39 & 5.04 & -\\
      \hline
-     $\dot{s}(t)$(ms$^{-1}$) & 0.94 & 4.1 & 9.29 \\
+     shock velocity $\dot{s}(t)$(ms$^{-1}$) & 0.94 & 4.1 & 9.29 & -\\
+     \hline
+     estimated shock velocity (ms$^{-1}$)& 2.5 & 5 & 10 & 6.7 \\
      \hline
     
 \end{tabular}
 \section{Conclusion}
 % and further work
-\newpage
+In this study, we developed a model to capture the dynamics of flash floods. We looked at various river cross-sections and derived expressions for their perimeters. By applying the method of characteristics, we were able to visualize how disturbances propagate and how shock waves form. The numerical solutions, using Godunov's method, confirmed the formation and movement of shocks, aligning well with calculations. We have concluded that the semi-circle is the ideal cross section for a channel because it has the fastest shock velocity, meaning that it is very efficient at passing water through. This shows the significant role river geometry plays in determining flood wave speed and intensity. Moving forward, we could refine the model by introducing variable rainfall rates, infiltration, and more detailed riverbed features.
+
 \bibliographystyle{plain}
 \bibliography{references}
 
@@ -486,6 +491,9 @@ And the first order derivative of $l(A)$ for the parabola is:
     \end{split}
 \end{equation}
 
+\section{Code}
+Code can be accessed through my GitHub: 
+\\\url{https://github.com/linsuong/Modeling-with-Differential-Equations---Individual-Project/tree/main/Scripts}
 \end{document}
 
 

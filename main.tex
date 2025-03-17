@@ -41,18 +41,19 @@
     \vspace{0.5cm}
 
     {\Large Chin Phin Ong (Linus) \par}
-
+    \vspace{0.25cm}
+    {\large Student ID: 33184747 \par}
     {\large  \par}
     \vfill
-    {\large Febuary 2025 \par}
+    {\large February 2025 \par}
 \end{titlepage}
 
 \begin{abstract}
-    
+    Flash floods are dangerous and unpredictable, caused by rapid flooding after intense rainfall, often within a few hours. In this study, we develop a mathematical model to describe flash flood dynamics using first-order hyperbolic PDEs based on mass and momentum conservation. We consider different river cross sections — rectangular, wedge-shaped, semicircular, and parabolic — and derive the corresponding perimeter and flux expressions. The formation and evolution of shocks are analysed using characteristic diagrams, providing insight into how rapid changes in flow develop. Numerical solutions are computed using Godunov's method, which effectively handles shock formation due to non-linear wave propagation. The model is tested under realistic rainfall conditions, showing how river geometry influences the behaviour of flood waves.
 \end{abstract}
 
 \section{Introduction}
-Flash floods are dangerous phenomena where rapid flooding (by definition, within 6 hours, often 3 after rainfall \cite{national-oceanic-and-atmospheric-administration-no-date}). In this short study, the mathematics behind flash flooding will be investigated. We will attempt to model the behaviour of flash floods using differential equations. Following that, the characteristic diagrams (Section \ref{sec:characteristic}) are presented for different initial conditions for different cross sections.
+Flash floods are dangerous phenomena characterized by rapid flooding, typically within 3 to 6 hours after heavy rainfall \cite{national-oceanic-and-atmospheric-administration-no-date}. In this short study, the mathematics behind flash flooding will be investigated. We will attempt to model the behaviour of flash floods using differential equations. Following that, the characteristic diagrams (Section \ref{sec:characteristic}) are presented for different initial conditions for different cross sections.
 
 \section{Modelling}
 To start, we will take a section of a river bed of length $s$, where the cross section of the river that is filled with water at time $t$ is $A(s, t)$, the cross section's perimeter of the riverbed that comes into contact with water is $l(s, t)$, and the angle of slope of the riverbed is $\alpha$. 
@@ -154,9 +155,7 @@ Where:
 We should define the constants that are shared between the different cross sections. We require that: $g = 9.81 \text{ ms}^{-2}$), $f = 0.1$, $A_{initial} = $, $\sigma = $, $\mu  = 0$. The non-constant variables will be the angle of the riverbed, $\alpha$ and the various variables that are unique to the different cross sections which will be discussed in Section \ref{sec:results}.
 
 \section{Godunov's Method}
-Godunov's method is a numerical method to obtain an accurate solution to a hyperbolic PDE with shocks. In this scheme, we use the Finite Volume Method. 
-
-We consider the first order hyperbolic PDE of the form:
+Godunov's method is a numerical method to obtain an accurate solution to a hyperbolic PDE with shocks. In this scheme, we use the Finite Volume Method. We consider the first order hyperbolic PDE of the form:
 \begin{equation}
     \frac{\partial c}{\partial t} + \frac{\partial}{\partial x}Q(c) = 0
 \end{equation}
@@ -169,73 +168,106 @@ Where:
 \begin{equation}
     Q(A) = \sqrt{\frac{g\sin\alpha}{f}}\sqrt{\frac{A^3}{l(A)}}
 \end{equation}
-
-And the PDE is from the conservation law:
+This is what is cited in the notes. However, in the actual code I take a different approach. The spatial domain is discretised into cells, where I approximate solutions as piecewise constant. Then I solve the PDE $\frac{\partial c}{\partial t} + \frac{\partial}{\partial x}Q(c) = 0$ at the boundary. One can set the time step, $dt$ to obey the Courant–Friedrichs–Lewy (CFL) conditions \cite{courant1967partial} to ensure stability. We use the upwind scheme such that flux is calculated based on the flow. The cross sectional area is then evaluated by:
 \begin{equation}
-    \frac{d}{dt}\int_a^b A(s, t)dx + [Q(A(s, t)]_a^b = 0
+    A_{new}[i] = A[i] - \frac{dt}{dx}(Q[i + 1] - Q[i])
+\end{equation}
+And can be visualised in the $(A, s)$ plane by plotting curves of $f(A, s)$ for different values of $t$ to observe time evolution of the state.
+
+\subsection{Shock velocity}
+Since the PDE (Eqn. \ref{PDE general}) is from the conservation law (from lecture notes):
+\begin{equation}
+    \frac{d}{dt}\int_a^b A(s, t)ds + [Q(A(s, t)]_a^b = 0
     \label{eqn:conservation_law_oint}
 \end{equation}
-
+One an determine the speed of the shock by picking values $a$ and $b$ close to the shock. This allows the approximation of the integral to be:
 \begin{equation}
-    \dot s(t) = \frac{Q(A_1)- Q(A_0)}{A_1 - A_0} = \frac{[Q(A)]_{s(t)}}{[A]_{s(t)}}
+    \begin{split}
+        &\int_a^b A(s, t)ds \approx A_0 (h(t) - a) + A_1(b - h(t))
+        \\
+    \\ \text{where: }& A_0 = A(s(t)-a, t), \qquad A_1 = A(b - s(t),t)
+    \\
+    \\ &\frac{d}{dt}\int_a^b A(s, t)ds = \dot s(t)(A_0 - A_1)
+    \\ &\boxed{\text{ }\dot s(t) = \frac{Q(A_1)- Q(A_0)}{A_1 - A_0} = \frac{[Q(A)]_{s(t)}}{[A]_{s(t)}}\text{ }}
+    \end{split}
 \end{equation}
-It is important to understand how the shock evolves with time. It is obtained using the shock velocity equation:
-\begin{itemize}
-    \item $A_1$ is the area of the first characteristic curve
-    \item $A_2$ is the area of the second characteristic curve
-    \item $Q(x)$ is 
-\end{itemize}
-Where for the first two characteristic curves that intersect:
-\begin{itemize}
-    \item $[\cdot]_{s(t)}$ is the jump in values across the shock at $x = s(t)$
-\end{itemize}
 
-\section{Running code}
+It is important to understand how the shock evolves with time. It is obtained using the shock velocity equation, where  for the first two characteristic curves that intersect$[\cdot]_{s(t)}$ is the jump in values across the shock at $x = s(t)$. $A_1$ and $A_2$ are the areas of the first and second characteristic curves respectively.
+
+\section{Simulations}
 \label{sec:results}
-The values of $\alpha$ will be obtained from \cite{ROSGEN1994169}. The values of $\alpha$s are in gradient percentage from \cite{ROSGEN1994169}, where the formulae to convert to radians is: $\phi = \arctan{\theta}$, where $\theta$ and $\phi$ are the angles in gradient percentage and radians respectively. We will have a rainfall volume $V = 5,000\text{ m}^3$ \cite{} with a standard deviation $\sigma = 100\text{ m}$. The code that plots the characteristic equations is the function \verb|plot_characteristics| in \verb|characteristic_plot.py|. For the Gudonov method, the file \verb|gudonov.py| is used. The code can be found on GitHub\cite{linsuong_2023}. The objective of this is to observe the evolution of the water in the river, and to test the two methods and see if they line up with each other.
+The values of $\alpha$ will be obtained from \cite{ROSGEN1994169}. The values of $\alpha$s are in gradient percentage from \cite{ROSGEN1994169}, where the formulae to convert to radians is: $\phi = \arctan{\theta}$, where $\theta$ and $\phi$ are the angles in gradient percentage and radians respectively. We will have a rainfall volume $V = 5,000\text{ m}^3$ \cite{} with a standard deviation $\sigma = 100\text{ m}$. The code that plots the characteristic equations is the function \verb|plot_characteristics| in \verb|characteristic_plot.py|. For the Gudonov method, the file \verb|gudonov.py| is used. The code can be found on GitHub\cite{linsuong_2023}. The objective of this is to observe the evolution of the water in the river, and to test the two methods and see if they line up with each other. Calculation of wave speed is also be done via code.
 
 \subsection{Rectangular Channel}
-For the rectangular channel of width $w$ and height of water $h$ (Fig. \ref{fig:cross-sections}), the area and perimeter respectively are: $A = wh$ and $l(A) = w + \frac{2A}{w}$, giving a first order derivative of :$l'(A) = \frac{2}{w}$ (See Appendix \ref{appendix:rectangle} for detailed derivation). Meanwhile, $\alpha = 2\%$ and $w = 10\text{ m}$. Plotting the characteristic diagram gives the plot shown in Fig. \ref{fig:char_rectangle}.
-\begin{figure}[H]
+For the rectangular channel of width $w$ and height of water $h$ (Fig. \ref{fig:cross-sections}), the area and perimeter respectively are: $A = wh$ and $l(A) = w + \frac{2A}{w}$, giving a first order derivative of :$l'(A) = \frac{2}{w}$ (See Appendix \ref{appendix:rectangle} for detailed derivation). Meanwhile, $\alpha = 2\%$ and $w = 10\text{ m}$. Plotting the characteristic diagram gives the plot shown in Fig. \ref{fig:rect_char}.
+\begin{figure}[ht]
     \centering
     \begin{subfigure}[b]{0.49\textwidth}
         \centering
         \includegraphics[width=\textwidth]{Figures/Rectangle_characteristic.pdf}
         \caption{Characteristic equations for the rectangular cross sections}
-        \label{fig:MD1_l345_1}
+        \label{fig:rect_char}
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.49\textwidth}
         \centering
         \includegraphics[width=\textwidth]{Figures/Rectangle_godunov_rk45.pdf}
         \caption{Visualisation of the Godunov method as a changing area, $A$ along the length of the river for different time $t$ for the rectangular cross section}
-        \label{fig:MD1_l345_100}
+        \label{fig:rect_godunov}
     \end{subfigure}
-    \caption{Plots of relic density against $m_{h_1}$ for different mass differences (while keeping $m_{h_1}$ lightest). The red shaded region is the area excluded by LEP, and the red line the upper limit of DM relic density (Eqn. \ref{eqn:DM relic density value}).}
+    \caption{Plots regarding the rectangular channel. A shock forms at $t = $ and $s = $}
 \end{figure}
 
-\begin{figure}
-    \centering
-    \includegraphics[width=0.5\linewidth]{}
-    \caption{Characteristic diagram of a rectangular channel}
-    \label{fig:char_rectangle}
-\end{figure}
-
-In Figure \ref{fig:char_rectangle}, we notice that shock formation occurs at $s= $ and $t= $ with a gradient of .
+In Figure \ref{fig:wedge_char}, we notice that shock formation occurs at $s= $ and $t= $ with a gradient of .
 
 \subsection{Wedge Channel}
-For the wedge channel, the gradient percentage is at a higher value at $4-10\%$ (value taken is the median at $6.5\%$). The wedge also has different variables, being $R$ and $\theta$, which are $R = 5\text{ m}$ and $\theta = \pi/3$ respectively. We obtain $l =\sqrt{\frac{2A}{\left(\theta - \sin\theta\right)}}\theta$ and $l'(A) =\frac{2}{\sqrt{2A\sin(\theta)}}$.(See Appendix \ref{appendix:wedge} for detailed derivation.)
+For the wedge channel, the gradient percentage is at a higher value at $4-10\%$ (value taken is the median at $6.5\%$). To make the wedge comparable to the rectangular channel, we can set the variables to be $\theta = \pi$, have a comparable shape to the rectangle. We obtain $l =\sqrt{\frac{2A}{\left(\theta - \sin\theta\right)}}\theta$ and $l'(A) =\frac{2}{\sqrt{2A\sin(\theta)}}$.(See Appendix \ref{appendix:wedge} for detailed derivation.)
 
-\begin{figure}
+\begin{figure}[ht]
     \centering
-    \includegraphics[width=0.5\linewidth]{}
-    \caption{Characteristic diagram of a wedge channel}
-    \label{fig:enter-label}
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Figures/Wedge_characteristic.pdf}
+        \caption{Characteristic equations for the wedge cross sections}
+        \label{fig:wedge_char}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Figures/Wedge_godunov.pdf}
+        \caption{Visualisation of the Godunov method as a changing area, $A$ along the length of the river for different times $t$ for the wedge cross section}
+        \label{fig:wedge_godunov}
+    \end{subfigure}
+    \caption{Plots regarding the wedge channel. A shock forms at $t = $ and $s = $}
 \end{figure}
+
+In Figure \ref{fig:wedge_char}, we notice that shock formation occurs at $s= $ and $t= $ with a gradient of , with a calculated shock speed of $ \text{ ms}^-1$, but showing a shock speed of $ \text{ ms}^-1$ in Fig. \ref{fig:wedge_godunov}.
 
 \subsection{Semi-Circular}
 Semi-circular - For a semi circular cross section that has a radius $R$ and $\theta$ is the central angle subtended by the water surface (Fig. \ref{fig:cross-sections}), $A = \frac{R^2}{2}\left(\theta - \sin\theta\right)$, $l = \sqrt{\frac{2A}{\left(\theta - \sin\theta\right)}}\theta$. $\alpha = 3\%$ and $\theta = \pi/3$. See Appendix \ref{appendix:semi-circular} for detailed derivation.
 
+\begin{figure}[ht]
+    \centering
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Figures/Wedge_characteristic.pdf}
+        \caption{Characteristic equations for the wedge cross sections}
+        \label{fig:wedge_char}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Figures/Wedge_godunov.pdf}
+        \caption{Visualisation of the Godunov method as a changing area, $A$ along the length of the river for different times $t$ for the wedge cross section}
+        \label{fig:wedge_godunov}
+    \end{subfigure}
+    \caption{Plots regarding the wedge channel. A shock forms at $t = $ and $s = $}
+\end{figure}
+
+In Figure \ref{fig:wedge_char}, we notice that shock formation occurs at $s= $ and $t= $ with a gradient of , with a calculated shock speed of $ \text{ ms}^-1$, but showing a shock speed of $ \text{ ms}^-1$ in Fig. \ref{fig:wedge_godunov}.
+
+\subsection{Parabola}
+Due to page count limit, the case of the parabola will not be investigated. However, the derivation of the perimeter $l(A)$ and $l'(A)$ can be found in Appendix \ref{appendix:parabola}. (As it would be a shame if all that math went to waste.)
 \section{Conclusion}
 % and further work
 \newpage

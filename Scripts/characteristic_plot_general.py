@@ -3,8 +3,6 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import csv
 
-
-
 def wave_speed(A):
     g = 9.81
     f = 0.05
@@ -19,7 +17,7 @@ def wave_speed(A):
 
     #def wave_speed(A):
     if shape == 'Wedge':
-        alpha = np.arctan(0.08)
+        alpha = np.arctan(0.065)
         theta = np.pi/3
         
         l = np.sqrt((8 * A)/np.sin(theta))
@@ -28,13 +26,14 @@ def wave_speed(A):
     #return (5/4) * np.sqrt((g * np.sin(alpha)/f) * np.sqrt(np.sin(theta)/8)) * (A ** (1/4))
     
     if shape == 'Semi':
-        alpha = np.arctan(0.08)
-        theta = np.pi/3
+        alpha = np.arctan(0.03)
+        theta = np.pi
         
         l = np.sqrt((2 * A)/(theta - np.sin(theta))) * theta
         l_prime = theta/(np.sqrt(2 * A * (theta - np.sin(theta))))
     
     if shape == 'Parabola':
+        alpha = np.arctan(0.1)
         w = 5
         
         var_0 = (3 * A) / (2 * (w ** 2))
@@ -71,7 +70,7 @@ def plot_characteristics(t, s, intersections = 'False'):
     plt.figure(figsize=(16, 10))
     for s0 in s:
         lines.append(characteristic(s0, t))
-        plt.plot(characteristic(s0, t), t, 'b-', lw=1, alpha=0.5)
+        plt.plot(characteristic(s0, t), t, 'b-', lw=2, alpha=0.5)
 
     if intersections == 'True':
         intersections = []
@@ -93,10 +92,11 @@ def plot_characteristics(t, s, intersections = 'False'):
     plt.ylabel('Time, $t$ (Seconds)', fontsize=40)
     plt.title(f'Characteristic Diagram for {shape} Channel', fontsize=40)
     plt.xlim(0, 5 * sigma + mean)
+    #plt.ylim(0, t_max)
     plt.legend()
     plt.grid(alpha=0.3)
     plt.tick_params(axis='both', which='major', labelsize=40)
-    plt.savefig(f'Figures/{shape}_characteristic.pdf')
+    plt.savefig(f'Figures/{shape}_characteristic.pdf', bbox_inches="tight", pad_inches = 0.2)
     plt.show()
 
 ##############################################################################################################
@@ -111,7 +111,7 @@ if __name__ == '__main__':
     mean = 0
     sigma = 100 #std dev
 
-    shape = 'Wedge'
+    shape = 'Parabola'
 
     c0 = wave_speed(A0(0))
     t_shock = 2 * sigma / c0

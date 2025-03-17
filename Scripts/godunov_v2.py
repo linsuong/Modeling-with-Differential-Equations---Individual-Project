@@ -120,7 +120,7 @@ if __name__ == "__main__":
     V = 5000
 
     mean = 0
-    sigma = 100
+    sigma = 10
 
     shape = 'Rectangle'
 

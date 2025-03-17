@@ -7,11 +7,11 @@ def l(A):
         return w + (2 * A) / w
     
     if shape == 'Wedge':
-        theta = np.pi / 3
+        theta = np.pi / 6
         return np.sqrt((8 * A) / (np.sin(theta)))
     
     if shape == 'Semi':
-        theta = np.pi
+        theta = np.pi/3
         
         return np.sqrt((2 * A) / (theta - np.sin(theta))) * theta
 
@@ -24,13 +24,13 @@ def l(A):
             
 def u_bar(A):
     if shape == 'Rectangle':
-        alpha = np.arctan(0.02)
+        alpha = np.arctan(0.02)  # Correctly left in radians
         
     if shape == 'Wedge':
-        alpha = np.arctan(0.065)
+        alpha = np.arctan(0.08)  # Correctly left in radians
         
     if shape == 'Semi':
-        alpha = np.arctan(0.3)
+        alpha = np.arctan(0.2)
     
     if shape == 'Parabola':
         alpha = np.arctan(0.1)
@@ -59,7 +59,7 @@ def godunov(t, t_end, x, N, L):
     
     while t < t_end:
         Q_flux = np.zeros(N + 1)
-        
+        """
         # Upwind flux calculation using Godunov's method
         for i in range(1, N):
             if u_bar(A[i - 1]) > 0:
@@ -67,32 +67,33 @@ def godunov(t, t_end, x, N, L):
             else:
                 Q_flux[i] = Q(A[i])
         
-        # Update cell averages
-        A_new = np.zeros(N)
+        # Update cell averages"""
+        Q_new = np.zeros(N)
         for i in range(1, N - 1):
-            A_new[i] = A[i] - (dt / dx) * (Q_flux[i + 1] - Q_flux[i])
+            Q_new[i] = -(dt / dx) * (Q_flux[i + 1] - Q_flux[i])
         
         # Apply boundary conditions (e.g., zero flux at boundaries)
-        A_new[0] = A_new[1]
-        A_new[-1] = A_new[-2]
+        Q_new[0] = Q_new[1]
+        Q_new[-1] = Q_new[-2]
 
         # Update time and solution
         t += dt
-        A = A_new
+        Q = Q_new
         
         # Plot every 1 second
-        if t % 1 < dt:
-            plt.plot(x, A, linewidth = 5, label=f't={t:.1f}s')
-            #print(A)
+        if t % 0.1 < dt:
+            for i in range(0, len(Q)):
+                plt.plot(x, Q, label=f't={t:.1f}s')
+                #print(A)
             
     #plt.vlines(b + sigma, A_L, 40)
-    plt.xlabel('Distance along river, $s$', fontsize=40)
-    plt.ylabel('Cross sectional area, $A$', fontsize=40)
-    plt.xlim(0, 500)
-    plt.legend(fontsize=40)
-    plt.tick_params(axis='both', which='major', labelsize=40)
-    plt.title(f'Evolution of cross sectional area, \n $A$ across length for different $t$, {shape}', fontsize=40)
-    plt.savefig(f'Figures/{shape}_godunov.pdf', bbox_inches="tight", pad_inches = 0.2)
+    plt.xlabel('Distance along river, $s$', fontsize=20)
+    plt.ylabel('Cross sectional area, $A$', fontsize=20)
+    plt.xlim(0, 5 * sigma + mean)
+    plt.legend()
+    plt.tick_params(axis='both', which='major', labelsize=20)
+    plt.title('Evolution of cross sectional area, $A$ across length for different $t$', fontsize=20)
+    plt.savefig(f'Figures/{shape}_godunov.pdf')
     plt.show()
 
 ##############################################################################################################
@@ -105,15 +106,16 @@ if __name__ == "__main__":
     V = 5000
 
     mean = 0
+
     sigma = 100
 
-    shape = 'Parabola'
+    shape = 'Rectangle'
 
-    N = 500
+    N = 100
     L = 10
     t = 0
-    t_end = 5
-    s = np.linspace(0, N, N)
+    t_end = 100
+    s = np.linspace(0, 5 * sigma + mean, N)
 
     #plt.close('all')
     godunov(t, t_end, s, N, L)

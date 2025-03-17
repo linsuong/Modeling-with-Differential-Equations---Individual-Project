@@ -7,7 +7,7 @@ Delta = 2*R/L
 
 A_L = 3
 
-shape = 'Wedge'
+shape = 'Parabola'
 
 def l(A):
     if shape == 'Rectangle':

@@ -1,0 +1,5 @@
+\begin{equation}
+    \begin{split}
+        \frac{\partial A}{\partial t} + \sqrt{\frac{g \sin\alpha}{f}}\frac{\partial}{\partial s}\sqrt{\frac{A^3}{l(A)}} = \frac{\partial A}{\partial t} + \sqrt{\frac{g \sin\alpha}{f}}\left(\frac{1}{2}A^{1/2} - \frac{3}{2}l(A)^{-3/2}\right)
+    \end{split}
+\end{equation}

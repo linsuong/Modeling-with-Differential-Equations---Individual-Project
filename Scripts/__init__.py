@@ -1,2 +1,0 @@
-from godunov import godunov
-from characteristic_plot_general import plot_characteristics

@@ -196,6 +196,24 @@ The values of $\alpha$ will be obtained from \cite{ROSGEN1994169}. The values of
 
 \subsection{Rectangular Channel}
 For the rectangular channel of width $w$ and height of water $h$ (Fig. \ref{fig:cross-sections}), the area and perimeter respectively are: $A = wh$ and $l(A) = w + \frac{2A}{w}$, giving a first order derivative of :$l'(A) = \frac{2}{w}$ (See Appendix \ref{appendix:rectangle} for detailed derivation). Meanwhile, $\alpha = 2\%$ and $w = 10\text{ m}$. Plotting the characteristic diagram gives the plot shown in Fig. \ref{fig:char_rectangle}.
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Figures/Rectangle_characteristic.pdf}
+        \caption{Characteristic equations for the rectangular cross sections}
+        \label{fig:MD1_l345_1}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Figures/Rectangle_godunov_rk45.pdf}
+        \caption{Visualisation of the Godunov method as a changing area, $A$ along the length of the river for different time $t$ for the rectangular cross section}
+        \label{fig:MD1_l345_100}
+    \end{subfigure}
+    \caption{Plots of relic density against $m_{h_1}$ for different mass differences (while keeping $m_{h_1}$ lightest). The red shaded region is the area excluded by LEP, and the red line the upper limit of DM relic density (Eqn. \ref{eqn:DM relic density value}).}
+\end{figure}
+
 \begin{figure}
     \centering
     \includegraphics[width=0.5\linewidth]{}

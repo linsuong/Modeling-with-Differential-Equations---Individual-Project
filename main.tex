@@ -232,10 +232,10 @@ For the rectangular channel of width $w$ and height of water $h$ (Fig. \ref{fig:
         \caption{Visualisation of the Godunov method as a changing area, $A$ along the length of the river for different time $t$ for the rectangular cross section}
         \label{fig:rect_godunov}
     \end{subfigure}
-    \caption{Plots regarding the rectangular channel. A shock forms at $t = $ and $s = $}
+    \caption{Plots regarding the rectangular channel. A shock forms at $t = 77.4\text{ s}$ and $s = 259.04\text{ m}$}
 \end{figure}
 
-In Fig. \ref{fig:wedge_char}, we notice that shock formation occurs at $s\approx 380\text{ m}$ and $t\approx 75\text{ s}$ with a calculated shock speed of $ 0.94\text{ ms}^{-1}$. However, according to Fig. \ref{fig:rect_godunov}.
+In Fig. \ref{fig:wedge_char}, we notice that shock formation occurs at $s\approx 380\text{ m}$ and $t\approx 75\text{ s}$ with a calculated shock speed of $ 0.94\text{ ms}^{-1}$. In Fig. \ref{fig:wedge_godunov} the shock moves $\approx200\text{ m}$ in $\approx 80 \text{ s}$, giving an approximate shock velocity of $ 2.5\text{ ms}^{-1}$.
 
 \subsection{Wedge Channel}
 For the wedge channel, the gradient percentage is at a higher value at $4-10\%$ (value taken is the median at $6.5\%$). To make the wedge comparable to the rectangular channel, we can set the variables to be $\theta = \pi$, have a comparable shape to the rectangle. We obtain $l =\sqrt{\frac{2A}{\left(\theta - \sin\theta\right)}}\theta$ and $l'(A) =\frac{2}{\sqrt{2A\sin(\theta)}}$.(See Appendix \ref{appendix:wedge} for detailed derivation.)
@@ -255,10 +255,10 @@ For the wedge channel, the gradient percentage is at a higher value at $4-10\%$ 
         \caption{Visualisation of the Godunov method as a changing area, $A$ along the length of the river for different times $t$ for the wedge cross section}
         \label{fig:wedge_godunov}
     \end{subfigure}
-    \caption{Plots regarding the wedge channel. A shock forms at $t = $ and $s = $}
+    \caption{Plots regarding the wedge channel. A shock forms at $t = 61.48$ and $s = 381$}
 \end{figure}
 
-In Figure \ref{fig:wedge_char}, we notice that shock formation occurs at $s= 420\text{ m}$ and $t= 60\text{ s}$, with a calculated shock speed of $ 4.1\text{ ms}^{-1}$, and showing a shock speed of $ \text{ ms}^-1$ in Fig. \ref{fig:wedge_godunov}.
+In Figure \ref{fig:wedge_char}, we notice that shock formation occurs at $s\approx 400\text{ m}$ and $t\approx 60\text{ s}$, with a calculated shock speed of $ 4.1\text{ ms}^{-1}$. In Fig. \ref{fig:wedge_godunov} the shock moves $\approx200\text{ m}$ in $\approx 40 \text{ s}$, giving an approximate shock velocity of $ 5\text{ ms}^{-1}$.
 
 \subsection{Semi-Circular}
 Semi-circular - For a semi circular cross section that has a radius $R$ and $\theta$ is the central angle subtended by the water surface (Fig. \ref{fig:cross-sections}), $A = \frac{R^2}{2}\left(\theta - \sin\theta\right)$, $l = \sqrt{\frac{2A}{\left(\theta - \sin\theta\right)}}\theta$. $\alpha = 3\%$ and $\theta = \pi/3$. See Appendix \ref{appendix:semi-circular} for detailed derivation.
@@ -278,13 +278,33 @@ Semi-circular - For a semi circular cross section that has a radius $R$ and $\th
         \caption{Visualisation of the Godunov method as a changing area, $A$ along the length of the river for different times $t$ for the semicircular cross section}
         \label{fig:semi_godunov}
     \end{subfigure}
-    \caption{Plots regarding the wedge channel. A shock forms at $s= 400\text{ m}$ and $t= 80\text{ s}$}
+    \caption{Plots regarding the semi-circular channel. A shock forms at $s= 381\text{ m}$ and $t= 82\text{ s}$}
 \end{figure}
 
-In Figure \ref{fig:wedge_char}, we notice that shock formation occurs at $s= 400\text{ m}$ and $t= 80\text{ s}$, with a calculated shock speed of $ 9.29\text{ ms}^{-1}$. In Fig. \ref{fig:wedge_godunov} there is indication of shock occurrence with a shock velocity of. This is the fastest out of the 3 cross sections in terms of the shock velocity. This means that water is easily expelled via a semi-circular cross section.
+In Figure \ref{fig:wedge_char}, we notice that shock formation occurs at $s \approx 400\text{ m}$ and $t\approx 80\text{ s}$, with a calculated shock speed of $ 9.29\text{ ms}^{-1}$. In Fig. \ref{fig:semi_godunov} the shock moves $\approx200\text{ m}$ in $\approx 20 \text{ s}$, giving an approximate shock velocity of $ 10\text{ ms}^{-1}$. This is the fastest out of the 3 cross sections in terms of the shock velocity. This means that water is easily expelled via a semi-circular cross section.
 
 \subsection{Parabola}
-Due to page count limit, the case of the parabola will not be investigated. However, the derivation of the perimeter $l(A)$ and $l'(A)$ can be found in Appendix \ref{appendix:parabola}. (As it would be a shame if all that math went to waste.)
+In the case of the parabola, the characteristic diagram obtained could not be interpreted. 
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Figures/Parabola_characteristic.pdf}
+        \caption{Characteristic equations for the parabolic cross sections - no meaningful data obtained}
+        \label{fig:parab_char}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Figures/Parabola_godunov.pdf}
+        \caption{Visualisation of the Godunov method as a changing area, $A$ along the length of the river for different times $t$ for the semicircular cross section}
+        \label{fig:parab_godunov}
+    \end{subfigure}
+    \caption{Plots regarding the parabolic channel.}
+\end{figure}
+
+However, the shock velocity can be estimated. According to Fig. \ref{fig:parab_char}, the shock moves $\approx400\text{ m}$ in $\approx 60 \text{ s}$, giving an approximate shock velocity of $ 6.7\text{ ms}^{-1}$. This is the 2nd fastest cross section behind the semi-circle.
+
 \subsection{Tabulation of Data}
 \begin{tabular}{|c|c|c|c|}
     \hline

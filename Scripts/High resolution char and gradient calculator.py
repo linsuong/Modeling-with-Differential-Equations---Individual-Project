@@ -5,7 +5,7 @@ import scipy.interpolate as interp
 #from characteristic_plot_general import wave_speed
 
 # Define constants
-shape = 'Rectangle'
+shape = 'Semi'
 g = 9.81
 f = 0.05 
 A_max = 5000
@@ -26,7 +26,7 @@ def wave_speed(A):
 
     #def wave_speed(A):
     if shape == 'Wedge':
-        alpha = np.arctan(0.08)
+        alpha = np.arctan(0.065)
         theta = np.pi/3
         
         l = np.sqrt((8 * A)/np.sin(theta))
@@ -35,13 +35,14 @@ def wave_speed(A):
     #return (5/4) * np.sqrt((g * np.sin(alpha)/f) * np.sqrt(np.sin(theta)/8)) * (A ** (1/4))
     
     if shape == 'Semi':
-        alpha = np.arctan(0.08)
-        theta = np.pi/3
+        alpha = np.arctan(0.03)
+        theta = np.pi
         
         l = np.sqrt((2 * A)/(theta - np.sin(theta))) * theta
         l_prime = theta/(np.sqrt(2 * A * (theta - np.sin(theta))))
     
     if shape == 'Parabola':
+        alpha = np.arctan(0.1)
         w = 5
         
         var_0 = (3 * A) / (2 * (w ** 2))
@@ -169,3 +170,4 @@ plt.legend()
 plt.grid(alpha=0.3)
 plt.show()
 """
+

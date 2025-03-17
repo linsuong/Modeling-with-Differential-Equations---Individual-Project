@@ -91,7 +91,7 @@ def plot_characteristics(t, s, intersections = 'False'):
     plt.xlabel('Distance along river, $s$ (m)', fontsize=40)
     plt.ylabel('Time, $t$ (Seconds)', fontsize=40)
     plt.title(f'Characteristic Diagram for {shape} Channel', fontsize=40)
-    plt.xlim(0, 5 * sigma + mean)
+    plt.xlim(200, 500)
     #plt.ylim(0, t_max)
     plt.legend()
     plt.grid(alpha=0.3)
@@ -111,13 +111,13 @@ if __name__ == '__main__':
     mean = 0
     sigma = 100 #std dev
 
-    shape = 'Parabola'
+    shape = 'Semi'
 
     c0 = wave_speed(A0(0))
     t_shock = 2 * sigma / c0
     t_max = 2 * t_shock
     
-    t = np.linspace(0, t_max, 500)
+    t = np.linspace(0, 120, 500)
     s = np.linspace(-5 * sigma, 5 * sigma + mean, 100)
 
     plot_characteristics(t, s, intersections = "False")

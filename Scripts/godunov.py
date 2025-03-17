@@ -107,9 +107,9 @@ if __name__ == "__main__":
     mean = 0
     sigma = 100
 
-    shape = 'Parabola'
+    shape = 'Semi'
 
-    N = 500
+    N = 1000
     L = 10
     t = 0
     t_end = 5

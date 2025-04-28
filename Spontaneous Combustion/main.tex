@@ -1,0 +1,96 @@
+\documentclass[12pt]{article}
+%\usepackage{report}
+
+\usepackage[utf8]{inputenc} % allow utf-8 input
+%\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage[colorlinks=true, linkcolor=blue, citecolor=blue, urlcolor=blue]{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+%\usepackage{microtype}      % microtypography
+\usepackage{lipsum}		% Can be removed after putting your text content
+\usepackage{graphicx}
+\usepackage{footnote}
+\usepackage{doi}
+\usepackage{comment}
+\usepackage{multirow}
+\usepackage{textcomp}
+\usepackage{gensymb}
+\usepackage{float}
+\usepackage{amsmath}
+%\usepackage{subfigure}
+\usepackage{subcaption}
+\usepackage{setspace}
+\usepackage[skip=10pt plus1pt]{parskip} 
+\usepackage[top=3cm, bottom=3cm, left=2.5cm, right=2.5cm]{geometry}
+\usepackage{titlesec}
+\begin{document}
+\onehalfspacing
+\begin{titlepage}
+    \centering
+    \includegraphics[width=3cm]{crest.jpg}\par
+    \vspace{0.3cm}
+    {\scshape\Large School of Mathematical Sciences \par}
+    \vspace{0.25cm}
+    {\scshape\Large The University of Southampton \par}
+    \vspace{0.25cm}
+    {\Large MATH 6149 - Modelling with Differential Equations \par}
+    \vspace{0.5cm}
+    {\huge\bfseries Spontaneous Combustion \par}
+    \vspace{0.5cm}
+
+    {\Large Chin Phin Ong (Linus) \par}
+    \vspace{0.25cm}
+    {\large Student ID: 33184747 \par}
+    {\large  \par}
+    \vfill
+    {\large March 2025 \par}
+\end{titlepage}
+
+\section{Introduction}
+Spontaneous combustion is not something the average Joe encounters on a day to day basis. This phenomenon occurs when flammable material goes up in flames without an external source of heat, rather it occurs via internal chemical reactions \cite{SPEIGHT2011355}. These chemical reactions happen slowly, producing heat greater than the material can dissipate it, until the temperature rises to a point of combustion (thermal runaway). 
+
+In this report, I will introduce in detail what spontaneous combustion is, and how one can model this frightening phenomenon using differential equations. Finally, I will briefly touch on what the solutions given by solving the differential equations mean, and how to avoid spontaneous combustion.
+
+\section{Spontaneous Combustion}
+As mentioned, spontaneous combustion just does not happen in your backyard, unless your backyard is a 50 acre plot of land with mountains of hay, or you live with a scurry of squirrels who have accumulated way too many pistachios (also who happen to have "oil-soaked fibres" nearby \cite{TransportInformationService}).
+
+To start, we can derive a conservation law. Consider a material with infinitesimal thickness $dx$, infinitesimal volume $dV$ and a single side's surface area of $A$. Heat flows from $x$ to $x + dx$. The heat energy $H$ in a material per unit volume is:
+\begin{equation}
+    H = \rho c_\rho T
+\end{equation}
+Where $\rho$ and $c_\rho$ are the density and the specific heat capacity of the material respectively, with $T$ being the temperature. The heat energy at time $t$ is simply $H\cdot dV$, and the flux into $dV$ is:
+\begin{equation}
+    \text{Net heat flow into } dV = \underbrace{q(x, t)A}_{\text{flow in}} - \underbrace{q(x + dx, t)A}_{\text{flow out}}.
+\end{equation}
+
+Since we are considering the internal reactions that generate heat, the heat generation in $dV = G \cdot A \cdot dx$, where $G$ is the rate of heat generation. If we do a first order Taylor expansion for $q(x + dx, t)$, 
+\begin{equation}
+    q(x + dx, t) \approx q(x, t) + \frac{\partial q}{\partial x}\cdot dx
+\end{equation}
+The net heat flow is then: $- \frac{\partial q}{\partial x}\cdot A$. 
+
+This expression can be used to get closer to our final expression.
+\subsection{Conservation of Energy}
+The rate of change of heat energy in $dV$ must equal the net flux plus any internal heat generation, i.e.:
+\begin{equation}
+\begin{split}
+    \rho c_\rho \cdot A \cdot  dx\frac{\partial T}{\partial t} + \frac{\partial q}{\partial x}\cdot A \cdot  dx &= G\cdot A \cdot  dx
+    \\\rho c_\rho\frac{\partial T}{\partial t} + \frac{\partial q}{\partial x}&= G
+\end{split}    
+\label{eqn:conservation-law}
+\end{equation}
+This is the thermal energy conservation law. Now to relate heat flux $q$ and temperature, we can introduce Fourier's law:
+\begin{equation}
+    q = -k \frac{\partial T}{\partial x}
+\end{equation}
+With $k$ being the thermal conductivity of the material. We can substitute Fourier's law into equation \ref{eqn:conservation-law}, obtaining the 1D diffusion equation with source terms on the right:
+\begin{equation}
+    \boxed{\space \rho c_\rho\frac{\partial T}{\partial t} = \frac{\partial}{\partial x} \left(k \frac{\partial T}{\partial x}\right) + G \space}
+\end{equation}
+\section{Modelling}
+
+\bibliography{references}
+\bibliographystyle{plain}
+\end{document}
